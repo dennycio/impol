@@ -1,30 +1,31 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
-use App\Http\Controllers\Teacher\DashboardController as TeacherDashboard;
-use App\Http\Controllers\Student\DashboardController as StudentDashboard;
-
-
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/dashboard', [AdminDashboard::class, 'index'])->middleware('role:admin')->name('admin.dashboard');
-    Route::get('/teacher/dashboard', [TeacherDashboard::class, 'index'])->middleware('role:teacher')->name('teacher.dashboard');
-    Route::get('/student/dashboard', [StudentDashboard::class, 'index'])->middleware('role:student')->name('student.dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+Route::middleware(['auth', 'role:admin'])->group(function () {
+  // Rotas de admin 
 });
 
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+//rotas de professor
+});
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware(['auth', 'role:student'])->group(function () {
+  // rotas de estudante
+});
 
-// Exemplo de dashboards
-Route::get('/admin/dashboard', fn() => 'Painel do Administrador')->middleware('auth');
-Route::get('/teacher/dashboard', fn() => 'Painel do Professor')->middleware('auth');
-Route::get('/student/dashboard', fn() => 'Painel do Estudante')->middleware('auth');
+require __DIR__.'/auth.php';
