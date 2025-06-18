@@ -27,19 +27,19 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// ✅ Rotas específicas para administrador
+// Rotas específicas para administrador
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
 });
 
-// ✅ Rotas específicas para professores
+// Rotas específicas para professores
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::resource('grades', GradeController::class);
     Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create'); //não sei se esta rota esta bem difinida mas e essa de criar notas
 
 });
 
-// ✅ Rotas específicas para estudantes
+// Rotas específicas para estudantes
 Route::middleware(['auth', 'role:student'])->group(function () {
     
     Route::get('/grades', [GradeController::class, 'studentGrades'])->name('grades.student');
