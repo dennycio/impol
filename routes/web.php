@@ -6,6 +6,8 @@ use App\Http\Controllers\Teacher\DashboardController as AdminDashboardController
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\SubjectController;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -23,26 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::get('/teacher/dashboard', [TeacherDashboardController::class, 'index'])->name('teacher.dashboard');
     Route::resource('grades', GradeController::class);
-     Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create'); //não sei se esta rota esta bem difinida mas e essa de criar notas
-
+    Route::get('/student/grades', [App\Http\Controllers\GradeController::class, 'index'])->name('student.grades.index');
+    Route::resource('subjects', SubjectController::class);
 });
 
-// Rotas específicas para administrador
-Route::middleware(['auth', 'role:admin'])->group(function () {
-
-});
-
-// Rotas específicas para professores
-Route::middleware(['auth', 'role:teacher'])->group(function () {
-    Route::resource('grades', GradeController::class);
-    Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create'); //não sei se esta rota esta bem difinida mas e essa de criar notas
-
-});
-
-// Rotas específicas para estudantes
-Route::middleware(['auth', 'role:student'])->group(function () {
-    
-    Route::get('/grades', [GradeController::class, 'studentGrades'])->name('grades.student');
-});
 
 require __DIR__ . '/auth.php';

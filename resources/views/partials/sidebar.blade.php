@@ -9,6 +9,21 @@
                 </a>
             </li>
 
+            <!-- Link "Notas" conforme o role do usuário -->
+            @if(Auth::user()->role === 'student')
+                <li>
+                    <a href="{{ route('student.grades.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
+                        <i class="ti ti-book text-2xl"></i> Notas
+                    </a>
+                </li>
+            @elseif(Auth::user()->role === 'teacher')
+                <li>
+                    <a href="{{ route('grades.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
+                        <i class="ti ti-book text-2xl"></i> Notas
+                    </a>
+                </li>
+            @endif
+
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
                     <i class="ti ti-chart-bar text-2xl"></i> Dashboard 2

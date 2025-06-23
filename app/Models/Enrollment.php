@@ -22,6 +22,11 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function payments()
+    {
+    return $this->hasMany(Payment::class);
+    }
+
     public function grades()
     {
         return $this->hasMany(Grade::class);
