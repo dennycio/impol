@@ -19,9 +19,9 @@
     </div>
 
     <!-- Card para gerir disciplinas -->
-    <div class="inline-block bg-white border border-green-500 rounded-lg shadow-md p-6">
+    <div class="inline-block bg-white border border-blue-500 rounded-lg shadow-md p-6 mr-4">
         <a href="{{ route('subjects.index') }}"
-           class="inline-flex items-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+           class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             <!-- Ícone de livro/disciplina -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                  viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

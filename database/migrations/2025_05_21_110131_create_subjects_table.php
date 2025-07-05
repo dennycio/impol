@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('subjects', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->foreignId('course_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
-    });
-  }
+        Schema::create('subjects', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
+            $table->integer('year'); // ✅ Novo campo: ano da disciplina (ex: 1, 2, 3, 4)
+            $table->timestamps();
+        });
+    }
+
     /**
      * Reverse the migrations.
      */

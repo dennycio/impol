@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold mb-6">Painel do Professor</h1>
-
     <!-- Card compacto com botão e ícone -->
     <div class="inline-block bg-white border border-blue-500 rounded-lg shadow-md p-6">
         <a href="{{ route('grades.create') }}"
@@ -17,7 +16,6 @@
             Adicionar Nota
         </a>
     </div>
-
     <!-- Outras funcionalidades podem ir aqui -->
 </div>
 @endsection

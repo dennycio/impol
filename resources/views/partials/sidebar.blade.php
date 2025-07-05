@@ -5,58 +5,66 @@
 
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-layout-dashboard text-2xl"></i> Dashboard
+                    Dashboard
                 </a>
             </li>
 
-            <!-- Link "Notas" conforme o role do usuário -->
+            {{-- Link para editar perfil --}}
+            <li>
+                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-100 hover:text-purple-600 transition-all">
+                    Perfil
+                </a>
+            </li>
+
+            {{-- Links específicos conforme o tipo de utilizador --}}
             @if(Auth::user()->role === 'student')
                 <li>
                     <a href="{{ route('student.grades.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                        <i class="ti ti-book text-2xl"></i> Notas
+                        Notas
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('student.enrollments.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-green-100 hover:text-green-600 transition-all">
+                        Matrícula
                     </a>
                 </li>
             @elseif(Auth::user()->role === 'teacher')
                 <li>
                     <a href="{{ route('grades.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                        <i class="ti ti-book text-2xl"></i> Notas
+                        Notas
                     </a>
                 </li>
             @endif
 
+            {{-- Outros itens opcionais --}}
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-chart-bar text-2xl"></i> Dashboard 2
+                    Dashboard 2
                 </a>
             </li>
-
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-article text-2xl"></i> Buttons
+                    Buttons
                 </a>
             </li>
-
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-alert-circle text-2xl"></i> Alerts
+                    Alerts
                 </a>
             </li>
-
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-cards text-2xl"></i> Card
+                    Card
                 </a>
             </li>
-
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-file-description text-2xl"></i> Forms
+                    Forms
                 </a>
             </li>
-
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    <i class="ti ti-typography text-2xl"></i> Typography
+                    Typography
                 </a>
             </li>
         </ul>

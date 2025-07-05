@@ -14,6 +14,11 @@
         <p class="border p-2 rounded bg-gray-100">{{ $enrollment->year }}º Ano</p>
     </div>
 
+    <div class="mb-4">
+        <label class="block font-semibold">Data de Matrícula:</label>
+        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->created_at->format('d/m/Y') }}</p>
+    </div>
+
     <a href="{{ route('student.enrollments.index') }}" 
        class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
         Voltar

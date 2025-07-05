@@ -10,14 +10,21 @@ use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
-    // Mostrar todas as notas (apenas professores)
+    // Mostrar todas as notas: professor vê tudo, estudante vê só as suas
     public function index()
     {
-        if (auth()->user()->role !== 'teacher') {
+        $user = auth()->user();
+
+        if ($user->role === 'teacher') {
+            $grades = Grade::with(['enrollment.user', 'subject'])->get();
+        } elseif ($user->role === 'student') {
+            $grades = Grade::whereHas('enrollment', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->with('subject')->get();
+        } else {
             abort(403, 'Acesso não autorizado.');
         }
 
-        $grades = Grade::with(['enrollment.user', 'subject'])->get();
         return view('grades.index', compact('grades'));
     }
 
@@ -52,28 +59,20 @@ class GradeController extends Controller
 
         $subject = Subject::findOrFail($request->subject_id);
 
-        // Inclui o ano atual para inscrição (ajuste conforme sua regra)
         $year = date('Y');
 
-        // Garantir inscrição com ano
         $enrollment = Enrollment::firstOrCreate([
             'user_id' => $request->user_id,
             'course_id' => $subject->course_id,
             'year' => $year,
         ]);
 
-        // Cálculo da média dos testes
         $tests_average = ($request->test1 + $request->test2 + $request->test3) / 3;
-
-        // Usa recorrência se for maior que exame normal
         $exam_score = $request->recurrence_exam && $request->recurrence_exam > $request->exam
             ? $request->recurrence_exam
             : $request->exam;
 
-        // Nota final: 40% testes + 60% exame ou recorrência
         $final_score = round(($tests_average * 0.4) + ($exam_score * 0.6), 2);
-
-        // Situação
         $status = $final_score >= 10 ? 'Aprovado' : 'Reprovado';
 
         Grade::create([
@@ -121,17 +120,14 @@ class GradeController extends Controller
         ]);
 
         $tests_average = ($request->test1 + $request->test2 + $request->test3) / 3;
-
         $exam_score = $request->recurrence_exam && $request->recurrence_exam > $request->exam
             ? $request->recurrence_exam
             : $request->exam;
 
         $final_score = round(($tests_average * 0.4) + ($exam_score * 0.6), 2);
-
         $status = $final_score >= 10 ? 'Aprovado' : 'Reprovado';
 
         $subject = Subject::findOrFail($request->subject_id);
-
         $year = date('Y');
 
         $enrollment = Enrollment::firstOrCreate([
@@ -164,15 +160,5 @@ class GradeController extends Controller
 
         $grade->delete();
         return redirect()->route('grades.index')->with('success', 'Nota removida!');
-    }
-
-    // Estudante vê as suas próprias notas
-    public function studentGrades()
-    {
-        $grades = Grade::whereHas('enrollment', function ($query) {
-            $query->where('user_id', auth()->id());
-        })->with('subject')->get();
-
-        return view('grades.student', compact('grades'));
     }
 }

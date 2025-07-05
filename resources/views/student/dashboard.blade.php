@@ -9,5 +9,9 @@
            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
             Ver Notas
         </a>
+        <a href="{{ route('student.enrollments.index') }}" 
+            class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+             Fazer Matrícula
+        </a>
     </div>
 @endsection
