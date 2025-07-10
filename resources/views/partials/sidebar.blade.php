@@ -36,35 +36,9 @@
                 </li>
             @endif
 
-            {{-- Outros itens opcionais --}}
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Dashboard 2
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Buttons
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Alerts
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Card
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Forms
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Typography
+                    Notificações
                 </a>
             </li>
         </ul>

@@ -34,6 +34,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function subjects()
+    {
+    return $this->hasMany(Subject::class, 'teacher_id');
+    }
     /**
      * Get the attributes that should be cast.
      *

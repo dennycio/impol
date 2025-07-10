@@ -20,19 +20,43 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
+    
+    public function show(): View
+    {
+    return view('profile.show', [
+        'user' => auth()->user(),
+    ]);
+    }
+
 
     /**
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $validated = $request->validated();
+
+        // Atribuir novos campos
+        $user->fill($validated);
+
+        // Campos personalizados adicionais
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        $user->birthdate = $request->input('birthdate');
+        $user->gender = $request->input('gender');
+        $user->level = $request->input('level');
+        $user->previous_group = $request->input('previous_group');
+        $user->father_name = $request->input('father_name');
+        $user->mother_name = $request->input('mother_name');
+        $user->marital_status = $request->input('marital_status');
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

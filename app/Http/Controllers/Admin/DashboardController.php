@@ -3,37 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Enrollment;
+use App\Models\Subject;
+use App\Models\Notification;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        // Contar todos os estudantes (com role = 'student')
+        $activeStudents = User::where('role', 'student')->count();
+
+        // Contar todos os professores (com role = 'teacher')
+        $teachers = User::where('role', 'teacher')->count();
+
+        // Contar todas as matrículas
+        $enrollments = Enrollment::count();
+        // Contar todas as disciplinas
+        $subjects = Subject::count();
+        $notifications = Notification::latest()->take(5)->get();
+
+        return view('admin.dashboard', compact('activeStudents', 'teachers', 'enrollments', 'subjects', 'notifications'));
     }
-}
-
-
-public function exportarRelatorioEstudantes()
-{
-    // Filtrar usuários apenas com a role "student"
-    $estudantes = User::where('role', 'student') // Verifica apenas os estudantes
-                     ->with('curso') // Carrega o curso (assumindo que há um relacionamento)
-                     ->get();
-
-    // Cabeçalho do CSV
-    $csvData = "ID,Nome,Email,Curso\n";
-
-    // Adiciona os dados dos estudantes no CSV
-    foreach ($estudantes as $estudante) {
-        $csvData .= "{$estudante->id},{$estudante->name},{$estudante->email}," . ($estudante->curso->nome ?? 'Sem curso') . "\n";
-    }
-
-    // Define o nome do arquivo
-    $fileName = 'relatorio_estudantes_' . now()->format('Ymd_His') . '.csv';
-
-    // Retorna o arquivo CSV para download
-    return Response::make($csvData, 200, [
-        'Content-Type' => 'text/csv',
-        'Content-Disposition' => "attachment; filename={$fileName}",
-    ]);
 }
