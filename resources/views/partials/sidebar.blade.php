@@ -1,11 +1,11 @@
 <div class="fixed top-0 left-0 h-full w-64 bg-white shadow-md z-40">
     <div class="scroll-sidebar h-full overflow-y-auto px-4 pt-5">
         <ul class="space-y-2 text-sm text-gray-600">
-            <li class="text-xs font-bold pb-2 text-gray-400">HOME</li>
+            <li class="text-xs font-bold pb-2 text-gray-400">Início</li>
 
             <li>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
-                    Dashboard
+                    Página Inicial
                 </a>
             </li>
 
@@ -32,6 +32,11 @@
                 <li>
                     <a href="{{ route('grades.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
                         Notas
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('grades.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
+                        Adicionar Notas
                     </a>
                 </li>
             @endif

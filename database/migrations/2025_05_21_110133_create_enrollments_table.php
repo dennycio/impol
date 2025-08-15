@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('enrollments', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade'); // estudante
-        $table->foreignId('course_id')->constrained()->onDelete('cascade');
-        $table->year('year');
-        $table->timestamps();
-    });
- }
+        Schema::create('enrollments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // estudante
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade'); // disciplina
+            $table->year('year');
+            $table->timestamps();
+
+            $table->unique(['user_id', 'subject_id', 'year']); // impede matrícula duplicada no mesmo ano
+        });
+    }
 
     /**
      * Reverse the migrations.

@@ -29,20 +29,38 @@ class SubjectController extends Controller
     /**
      * Guardar disciplina no banco de dados.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'course_id' => 'required|exists:courses,id',
-        ]);
+    use App\Models\SubjectEnrollment;
+use Illuminate\Support\Facades\Auth;
 
-        Subject::create([
-            'name' => $request->name,
-            'course_id' => $request->course_id,
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'subject_ids' => 'required|array',
+        'subject_ids.*' => 'exists:subjects,id',
+        'year' => 'required|integer|min:1|max:5',
+    ]);
 
-        return redirect()->route('subjects.index')->with('success', 'Disciplina adicionada com sucesso!');
+    $userId = Auth::id();
+    $year = $request->year;
+
+    foreach ($request->subject_ids as $subjectId) {
+        $alreadyEnrolled = SubjectEnrollment::where('user_id', $userId)
+            ->where('subject_id', $subjectId)
+            ->where('year', $year)
+            ->exists();
+
+        if (!$alreadyEnrolled) {
+            SubjectEnrollment::create([
+                'user_id' => $userId,
+                'subject_id' => $subjectId,
+                'year' => $year,
+            ]);
+        }
     }
+
+    return redirect()->route('student.enrollments.index')->with('success', 'Disciplinas adicionadas com sucesso!');
+}
+
 
     /**
      * Mostrar detalhes de uma disciplina específica.

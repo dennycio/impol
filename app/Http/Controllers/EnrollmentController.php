@@ -31,30 +31,36 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Guardar nova matrícula.
+     * Guardar novas matrículas (múltiplos cursos).
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-        ]);
+{
+    $request->validate([
+        'course_ids' => 'required|array',
+        'course_ids.*' => 'exists:courses,id',
+    ]);
 
-        // Verificar se já está matriculado neste curso
-        $exists = Enrollment::where('user_id', Auth::id())
-            ->where('course_id', $request->course_id)
+    $userId = Auth::id();
+    $year = 1; // fixamos aqui, fora do validate
+
+    foreach ($request->course_ids as $courseId) {
+        $alreadyEnrolled = Enrollment::where('user_id', $userId)
+            ->where('course_id', $courseId)
+            ->where('year', $year)
             ->exists();
 
-        if ($exists) {
-            return redirect()->back()->withErrors('Já estás matriculado neste curso.');
+        if (!$alreadyEnrolled) {
+            Enrollment::create([
+                'user_id' => $userId,
+                'course_id' => $courseId,
+                'year' => $year,
+            ]);
         }
-
-        Enrollment::create([
-            'user_id' => Auth::id(),
-            'course_id' => $request->course_id,
-        ]);
-
-        return redirect()->route('student.enrollments.index')->with('success', 'Matrícula realizada com sucesso!');
     }
+
+    return redirect()->route('student.enrollments.index')->with('success', 'Matrículas realizadas com sucesso!');
+}
+
 
     /**
      * Mostrar detalhes de uma matrícula.
@@ -69,7 +75,7 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Mostrar formulário para editar matrícula (se aplicável).
+     * Mostrar formulário para editar matrícula.
      */
     public function edit($id)
     {
@@ -80,7 +86,7 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Atualizar matrícula.
+     * Atualizar uma matrícula específica (único curso).
      */
     public function update(Request $request, $id)
     {
@@ -88,10 +94,12 @@ class EnrollmentController extends Controller
 
         $request->validate([
             'course_id' => 'required|exists:courses,id',
+            'year' => 'required|integer|min:1|max:5',
         ]);
 
         $enrollment->update([
             'course_id' => $request->course_id,
+            'year' => $request->year,
         ]);
 
         return redirect()->route('student.enrollments.index')->with('success', 'Matrícula atualizada com sucesso!');

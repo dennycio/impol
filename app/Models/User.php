@@ -38,6 +38,10 @@ class User extends Authenticatable
     {
     return $this->hasMany(Subject::class, 'teacher_id');
     }
+    public function course()
+    {
+    return $this->belongsTo(Course::class);
+    }
     /**
      * Get the attributes that should be cast.
      *

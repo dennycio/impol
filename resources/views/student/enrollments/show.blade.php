@@ -5,8 +5,8 @@
     <h1 class="text-2xl font-bold mb-4">Detalhes da Matrícula</h1>
 
     <div class="mb-4">
-        <label class="block font-semibold">Curso:</label>
-        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->course->name }}</p>
+        <label class="block font-semibold">Disciplina:</label>
+        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->subject->name }}</p>
     </div>
 
     <div class="mb-4">

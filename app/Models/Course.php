@@ -15,6 +15,10 @@ class Course extends Model
     {
         return $this->belongsTo(Department::class);
     }
+    public function users()
+{
+    return $this->hasMany(User::class);
+}
 
     public function subjects()
     {
