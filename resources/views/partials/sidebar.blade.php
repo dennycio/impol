@@ -11,7 +11,7 @@
 
             {{-- Link para editar perfil --}}
             <li>
-                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-purple-100 hover:text-purple-600 transition-all">
+                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
                     Perfil
                 </a>
             </li>
@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('student.enrollments.create') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-green-100 hover:text-green-600 transition-all">
+                    <a href="{{ route('student.enrollments.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-green-100 hover:text-green-600 transition-all">
                         Matrícula
                     </a>
                 </li>

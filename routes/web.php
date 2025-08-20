@@ -8,6 +8,7 @@ use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardControll
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\Admin\PdfExportController;
 
 
 Route::get('/', function () {
@@ -32,6 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->except(['show']);
     Route::resource('notifications', \App\Http\Controllers\Admin\AdminNotificationController::class)->except(['show']);
     });
+
+    Route::get('/admin/pdf/enrollments', [PdfExportController::class, 'enrollments'])->name('admin.pdf.enrollments');
+    Route::get('/admin/pdf/students', [PdfExportController::class, 'students'])->name('admin.pdf.students');
+    Route::get('/admin/pdf/teachers', [PdfExportController::class, 'teachers'])->name('admin.pdf.teachers');
+    Route::get('/admin/pdf/subjects', [PdfExportController::class, 'subjects'])->name('admin.pdf.subjects');
+    Route::get('/admin/pdf/notifications', [PdfExportController::class, 'notifications'])->name('admin.pdf.notifications');
 
 
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
