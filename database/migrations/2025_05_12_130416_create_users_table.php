@@ -18,11 +18,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['teacher', 'admin', 'student'])->default('student');
+
+            // ✅ campo curso apenas
+            $table->foreignId('course_id')->nullable()->constrained('courses')->nullOnDelete();
+
             $table->rememberToken();
             $table->timestamps();
         });
     }
-    
 
     /**
      * Reverse the migrations.

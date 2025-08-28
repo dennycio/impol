@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // estudante
-            $table->foreignId('subject_id')->constrained()->onDelete('cascade'); // disciplina
+            $table->foreignId('course_id')->constrained()->onDelete('cascade'); // disciplina
             $table->year('year');
             $table->timestamps();
 
-            $table->unique(['user_id', 'subject_id', 'year']); // impede matrícula duplicada no mesmo ano
+            $table->unique(['user_id', 'course_id', 'year']); // impede matrícula duplicada no mesmo ano
         });
     }
 

@@ -6,12 +6,12 @@
 
     <div class="mb-4">
         <label class="block font-semibold">Disciplina:</label>
-        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->subject->name }}</p>
+        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->course->name }}</p>
     </div>
 
     <div class="mb-4">
         <label class="block font-semibold">Ano:</label>
-        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->year }}º Ano</p>
+        <p class="border p-2 rounded bg-gray-100">{{ $enrollment->year }}</p>
     </div>
 
     <div class="mb-4">

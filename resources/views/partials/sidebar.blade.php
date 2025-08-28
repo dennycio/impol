@@ -9,9 +9,9 @@
                 </a>
             </li>
 
-            {{-- Link para editar perfil --}}
+            {{-- Link para visualizar perfil --}}
             <li>
-                <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
+                <a href="{{ route('profile.show') }}" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-blue-100 hover:text-blue-600 transition-all">
                     Perfil
                 </a>
             </li>

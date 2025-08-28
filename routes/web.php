@@ -9,7 +9,7 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\Admin\PdfExportController;
-
+use App\Http\Controllers\Admin\AdminLogController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(fn() =>
     Route::resource('notifications', AdminNotificationController::class)->except(['show'])
+    
  );
 
     Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/pdf/teachers', [PdfExportController::class, 'teachers'])->name('admin.pdf.teachers');
     Route::get('/admin/pdf/subjects', [PdfExportController::class, 'subjects'])->name('admin.pdf.subjects');
     Route::get('/admin/pdf/notifications', [PdfExportController::class, 'notifications'])->name('admin.pdf.notifications');
+    Route::get('/admin/logs', [AdminLogController::class, 'index'])->name('admin.logs.index');
 
 
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');

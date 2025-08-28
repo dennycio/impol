@@ -32,35 +32,47 @@ class EnrollmentController extends Controller
 
     /**
      * Guardar novas matrículas (múltiplos cursos).
+     * O ano é definido automaticamente (1 → 4).
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'course_ids' => 'required|array',
-        'course_ids.*' => 'exists:courses,id',
-    ]);
+    {
+        $request->validate([
+            'course_ids' => 'required|array',
+            'course_ids.*' => 'exists:courses,id',
+        ]);
 
-    $userId = Auth::id();
-    $year = 1; // fixamos aqui, fora do validate
+        $userId = Auth::id();
 
-    foreach ($request->course_ids as $courseId) {
-        $alreadyEnrolled = Enrollment::where('user_id', $userId)
-            ->where('course_id', $courseId)
-            ->where('year', $year)
-            ->exists();
+        // Conta quantas matrículas já existem para este estudante
+        $existingEnrollments = Enrollment::where('user_id', $userId)->count();
 
-        if (!$alreadyEnrolled) {
-            Enrollment::create([
-                'user_id' => $userId,
-                'course_id' => $courseId,
-                'year' => $year,
-            ]);
+        // Define o próximo ano
+        $year = $existingEnrollments + 1;
+
+        // Impede matrícula além do 4º ano
+        if ($year > 4) {
+            return redirect()->route('student.enrollments.index')
+                ->with('error', 'Já concluiu todas as matrículas (4 anos).');
         }
+
+        foreach ($request->course_ids as $courseId) {
+            $alreadyEnrolled = Enrollment::where('user_id', $userId)
+                ->where('course_id', $courseId)
+                ->where('year', $year)
+                ->exists();
+
+            if (!$alreadyEnrolled) {
+                Enrollment::create([
+                    'user_id'   => $userId,
+                    'course_id' => $courseId,
+                    'year'      => $year,
+                ]);
+            }
+        }
+
+        return redirect()->route('student.enrollments.index')
+            ->with('success', "Matrícula realizada com sucesso para o {$year}º Ano!");
     }
-
-    return redirect()->route('student.enrollments.index')->with('success', 'Matrículas realizadas com sucesso!');
-}
-
 
     /**
      * Mostrar detalhes de uma matrícula.
@@ -76,6 +88,7 @@ class EnrollmentController extends Controller
 
     /**
      * Mostrar formulário para editar matrícula.
+     * (O estudante só pode alterar o curso, não o ano).
      */
     public function edit($id)
     {
@@ -86,7 +99,8 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Atualizar uma matrícula específica (único curso).
+     * Atualizar uma matrícula específica.
+     * (Só pode alterar o curso, o ano permanece igual).
      */
     public function update(Request $request, $id)
     {
@@ -94,15 +108,15 @@ class EnrollmentController extends Controller
 
         $request->validate([
             'course_id' => 'required|exists:courses,id',
-            'year' => 'required|integer|min:1|max:5',
         ]);
 
         $enrollment->update([
             'course_id' => $request->course_id,
-            'year' => $request->year,
+            // Não deixamos alterar o "year"
         ]);
 
-        return redirect()->route('student.enrollments.index')->with('success', 'Matrícula atualizada com sucesso!');
+        return redirect()->route('student.enrollments.index')
+            ->with('success', 'Matrícula atualizada com sucesso!');
     }
 
     /**
@@ -113,6 +127,7 @@ class EnrollmentController extends Controller
         $enrollment = Enrollment::where('user_id', Auth::id())->findOrFail($id);
         $enrollment->delete();
 
-        return redirect()->route('student.enrollments.index')->with('success', 'Matrícula removida com sucesso!');
+        return redirect()->route('student.enrollments.index')
+            ->with('success', 'Matrícula removida com sucesso!');
     }
 }
