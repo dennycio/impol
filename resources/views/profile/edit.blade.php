@@ -25,10 +25,17 @@
             </div>
 
             {{-- Email (só leitura) --}}
-            <div class="mb-6">
+            <div class="mb-4">
                 <label class="block font-medium mb-1">Email</label>
                 <input type="email" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed"
                        value="{{ auth()->user()->email }}" readonly>
+            </div>
+
+            {{-- Curso (só leitura) --}}
+            <div class="mb-4">
+                <label class="block font-medium mb-1">Curso</label>
+                <input type="text" class="w-full border p-2 rounded bg-gray-100 cursor-not-allowed"
+                       value="{{ auth()->user()->course?->name ?? '-' }}" readonly>
             </div>
 
             {{-- Telefone --}}

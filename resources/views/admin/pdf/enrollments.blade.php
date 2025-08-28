@@ -26,7 +26,7 @@
             <tr>
                 <th>Estudante</th>
                 <th>Email</th>
-                <th>Disciplina</th>
+                <th>Curso</th>
                 <th>Ano</th>
             </tr>
         </thead>
@@ -35,7 +35,7 @@
             <tr>
                 <td>{{ $enrollment->user->name }}</td>
                 <td>{{ $enrollment->user->email }}</td>
-                <td>{{ $enrollment->subject->name }}</td>
+                <td>{{ $enrollment->course->name }}</td>
                 <td>{{ $enrollment->year }}º Ano</td>
             </tr>
         @endforeach

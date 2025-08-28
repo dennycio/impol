@@ -19,7 +19,7 @@
         <!-- Fazer Matrícula -->
         <div class="flex-1 min-w-[200px] bg-white shadow rounded p-6">
             <h3 class="text-xl font-semibold text-gray-700 mb-2">Matrículas</h3>
-            <a href="{{ route('student.enrollments.index') }}" 
+            <a href="{{ route('student.enrollments.create') }}" 
                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
                 Fazer Matrícula
             </a>

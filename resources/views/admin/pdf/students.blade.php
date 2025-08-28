@@ -25,6 +25,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Curso</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
             <tr>
                 <td>{{ $student->name }}</td>
                 <td>{{ $student->email }}</td>
+                <td>{{ $student->course ? $student->course->name : '-' }}</td>
             </tr>
         @endforeach
         </tbody>

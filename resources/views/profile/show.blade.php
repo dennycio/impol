@@ -7,6 +7,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div><strong>Nome:</strong> {{ $user->name }}</div>
         <div><strong>Email:</strong> {{ $user->email }}</div>
+        <div><strong>Curso:</strong> {{ $user->course?->name ?? '-' }}</div>
         <div><strong>Telefone:</strong> {{ $user->phone ?? '-' }}</div>
         <div><strong>Endereço:</strong> {{ $user->address ?? '-' }}</div>
         <div><strong>Data de Nascimento:</strong> {{ $user->birthdate ?? '-' }}</div>
